@@ -1,0 +1,7 @@
+name = "VEM"
+uuid = "03be0773-2f11-4fad-90f1-10e5914d1d09"
+authors = ["Carlos Fernando Baptista"]
+version = "0.0.0"
+
+[compat]
+julia = "1.6.5"
