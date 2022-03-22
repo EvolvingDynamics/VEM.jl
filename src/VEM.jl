@@ -10,5 +10,6 @@ export Blobs
 
 include("compute_field.jl")
 export compute_field
+export compute_field!
 
 end
