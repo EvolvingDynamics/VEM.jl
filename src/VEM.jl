@@ -5,6 +5,9 @@ using StaticArrays
 
 include("linalg.jl")
 
+include("blobs.jl")
+export Blobs
+
 include("compute_field.jl")
 export compute_field
 
