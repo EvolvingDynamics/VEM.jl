@@ -1,6 +1,3 @@
-using VEM
-using Test
+using SafeTestsets  
 
-@testset "VEM.jl" begin
-    # Write your tests here.
-end
+@safetestset "N-body summation" begin include("compute_field.jl") end
