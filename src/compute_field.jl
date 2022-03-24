@@ -25,6 +25,6 @@ end
 function _compute_field!(field, kernel, circulations, radii, sources, targets)
     num_sources = length(sources)
     for (index, target) in enumerate(targets)
-        @inbounds field[index] =  mapreduce(kernel, +, circulations, radii, sources, Fill(target, num_sources))
+        @inbounds field[index] = mapreduce(kernel, +, circulations, radii, sources, Fill(target, num_sources))
     end
 end
