@@ -1,6 +1,8 @@
 module VEM
 
 using LinearAlgebra
+
+using FillArrays
 using StaticArrays
 
 include("linalg.jl")

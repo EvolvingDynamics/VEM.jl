@@ -23,11 +23,8 @@ function compute_field(kernel, circulations, radii, sources, targets)
 end
 
 function compute_field!(field, kernel, circulations, radii, sources, targets)
+    num_sources = length(sources)
     for (index, target) in enumerate(targets)
-        value = zero(eltype(field))
-        for (circulation, radius, source) in zip(circulations, radii, sources)
-            value += kernel(circulation, radius, source, target)
-        end
-        @inbounds field[index] = value
+        @inbounds field[index] =  mapreduce(kernel, +, circulations, radii, sources, Fill(target, num_sources))
     end
 end
