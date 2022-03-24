@@ -1,7 +1,6 @@
-using StaticArrays
 using Test
+using StaticArrays
 using VEM
-
 
 @testset "Construct Blobs" begin
     circulation = [1.23]

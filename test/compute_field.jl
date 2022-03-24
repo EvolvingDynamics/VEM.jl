@@ -1,4 +1,4 @@
-using LinearAlgebra
+using LinearAlgebra, Test
 using StaticArrays
 using VEM
 
