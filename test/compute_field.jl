@@ -2,7 +2,7 @@ using LinearAlgebra, Test
 using StaticArrays
 using VEM
 
-function kernel(circulation, radius, source, target)
+function velocity_kernel(circulation, radius, source, target)
     r = target - source
     rSq = dot(r, r)
     rhoSq = rSq/(radius*radius)
@@ -21,7 +21,7 @@ end
 
     blobs = Blobs(circulation, radius, source)
 
-    @test compute_field(kernel, blobs, target) == [kernel(circulation[1], radius[1], source[1], target[1])]
+    @test compute_field(velocity_kernel, blobs, target) == [velocity_kernel(circulation[1], radius[1], source[1], target[1])]
 end
 
 @testset "Multiple sources single target" begin
@@ -32,7 +32,7 @@ end
 
     blobs = Blobs(circulations, radii, sources)
 
-    @test compute_field(kernel, blobs, target) == [sum(kernel.(circulations, radii, sources, target))]
+    @test compute_field(velocity_kernel, blobs, target) == [sum(velocity_kernel.(circulations, radii, sources, target))]
 end
 
 @testset "Single source multiple targets" begin
@@ -43,7 +43,7 @@ end
 
     blobs = Blobs(circulation, radius, source)
 
-    @test compute_field(kernel, blobs, targets) == [sum(kernel.(circulation, radius, source, Ref(target))) for target in targets]
+    @test compute_field(velocity_kernel, blobs, targets) == [sum(velocity_kernel.(circulation, radius, source, Ref(target))) for target in targets]
 end
 
 @testset "Multiple sources multiple targets" begin
@@ -54,7 +54,7 @@ end
 
     blobs = Blobs(circulations, radii, sources)
 
-    @test compute_field(kernel, blobs, targets) == [sum(kernel.(circulations, radii, sources, Ref(target))) for target in targets]
+    @test compute_field(velocity_kernel, blobs, targets) == [sum(velocity_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
 end
 
 @testset "Compute field low-level interface consistency" begin
@@ -65,7 +65,7 @@ end
 
     blobs = Blobs(circulations, radii, sources)
 
-    @test compute_field(kernel, blobs, targets) == VEM._compute_field(kernel, circulations, radii, sources, targets)
+    @test compute_field(velocity_kernel, blobs, targets) == VEM._compute_field(velocity_kernel, circulations, radii, sources, targets)
 end
 
 @testset "Compute field in place" begin
@@ -76,7 +76,7 @@ end
     field = zeros(eltype(sources), length(targets))
 
     blobs = Blobs(circulations, radii, sources)
-    compute_field!(field, kernel, blobs, targets)
+    compute_field!(field, velocity_kernel, blobs, targets)
 
-    @test field == [sum(kernel.(circulations, radii, sources, Ref(target))) for target in targets]
+    @test field == [sum(velocity_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
 end
