@@ -57,19 +57,6 @@ end
     @test compute_field(velocity_kernel, blobs, targets) == [sum(velocity_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
 end
 
-@testset "Compute field low-level interface consistency" begin
-    circulations = [1.23, 4.56, 7.89]
-    radii = [0.45, 0.90, 1.80]
-    sources = [SVector(-3.0, 4.0), SVector(-5.0, 0.0), SVector(1.0, 2.0)] 
-    targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
-
-    blobs = Blobs(circulations, radii, sources)
-    velocity = similar(targets)
-    VEM._compute_field!(velocity, velocity_kernel, circulations, radii, sources, targets)
-
-    @test compute_field(velocity_kernel, blobs, targets) == velocity
-end
-
 @testset "Compute field in place" begin
     circulations = [1.23, 4.56, 7.89]
     radii = [0.45, 0.90, 1.80]
