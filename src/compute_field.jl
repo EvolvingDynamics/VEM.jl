@@ -1,25 +1,12 @@
 function compute_field(kernel, blobs, targets)
-    return _compute_field(kernel,
-                          blobs.circulation,
-                          blobs.radius,
-                          blobs.source,
-                          targets)
+    T = promote_type(eltype(blobs.source), eltype(targets))
+    field = zeros(T, length(targets))
+    _compute_field!(field, kernel, blobs.circulation, blobs.radius, blobs.source, targets)
+    return field
 end
 
 function compute_field!(field, kernel, blobs, targets)
-    return _compute_field!(field,
-                           kernel,
-                           blobs.circulation,
-                           blobs.radius,
-                           blobs.source,
-                           targets)
-end
-
-function _compute_field(kernel, circulations, radii, sources, targets)
-    T = promote_type(eltype(sources), eltype(targets))
-    field = zeros(T, length(targets))
-    _compute_field!(field, kernel, circulations, radii, sources, targets)
-    return field
+    _compute_field!(field, kernel, blobs.circulation, blobs.radius, blobs.source, targets)
 end
 
 function _compute_field!(field, kernel, circulations, radii, sources, targets)

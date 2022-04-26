@@ -64,8 +64,10 @@ end
     targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
 
     blobs = Blobs(circulations, radii, sources)
+    velocity = similar(targets)
+    VEM._compute_field!(velocity, velocity_kernel, circulations, radii, sources, targets)
 
-    @test compute_field(velocity_kernel, blobs, targets) == VEM._compute_field(velocity_kernel, circulations, radii, sources, targets)
+    @test compute_field(velocity_kernel, blobs, targets) == velocity
 end
 
 @testset "Compute field in place" begin
