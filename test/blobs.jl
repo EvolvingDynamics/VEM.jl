@@ -2,66 +2,110 @@ using Test
 using StaticArrays
 using VEM
 
-@testset "Construct 2D Blobs" begin
-    charge = [1.23]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0)]
+@testset "2D Blobs" begin    
+    @testset "Construct 2D Blobs" begin
+        charge = [1.23]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0)]
 
-    blobs = Blobs(charge, radius, source)
+        blobs = Blobs(charge, radius, source)
 
-    @test blobs.charge == charge
-    @test blobs.radius == radius
-    @test blobs.source == source
+        @test blobs.charge == charge
+        @test blobs.radius == radius
+        @test blobs.source == source
+    end
+
+    @testset "Construct 2D Blobs" begin
+        charge = [1.23, 4.56]
+        radius = [0.45, 0.67]
+        source = [SVector(0.0, 0.0), SVector(0.1, 0.1)]
+
+        blobs = Blobs(charge, radius, source)
+
+        @test blobs.charge == charge
+        @test blobs.radius == radius
+        @test blobs.source == source
+    end
+
+    @testset "Inconsistent attribute lengths for 2D Blobs" begin
+        charge = [1.23]
+        radius = [0.45, 0.67]
+        source = [SVector(0.0, 0.0)]
+
+        @test_throws ErrorException("Inconsistent attribute lengths for construction of Blobs") blobs = Blobs(charge, radius, source)
+    end
+
+    @testset "Inconsistent attribute types for 2D Blobs" begin
+        charge = [1.23]
+        radius = Float32[0.45]
+        source = [SVector(0.0, 0.0)]
+
+        @test_throws ErrorException("Inconsistent attribute types for construction of Blobs") blobs = Blobs(charge, radius, source)
+    end
+
+    @testset "Invalid charge dimension for 2D Blobs" begin
+        charge = [SVector(1.23, 4.56)]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0)]
+
+        @test_throws ErrorException("Invalid type of scalar value for attributes of Blobs") blobs = Blobs(charge, radius, source)
+    end
 end
 
-@testset "Construct 3D Blobs" begin
-    charge = [SVector(1.23, 3.45, 5.67)]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0, 0.0)]
+@testset "3D Blobs" begin
+    @testset "Construct 3D blob" begin
+        charge = [SVector(1.23, 4.56, 7.89)]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0, 0.0)]
 
-    blobs = Blobs(charge, radius, source)
+        blobs = Blobs(charge, radius, source)
 
-    @test blobs.charge == charge
-    @test blobs.radius == radius
-    @test blobs.source == source
-end
+        @test blobs.charge == charge
+        @test blobs.radius == radius
+        @test blobs.source == source
+    end
 
-@testset "Construct Blobs with invalid source dimension" begin
-    charge = [SVector(1.23, 3.45, 5.67)]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0, 0.0, 0.0)]
+    @testset "Construct 3D Blobs" begin
+        charge = [SVector(1.23, 4.56, 7.89), SVector(3.21, 6.54, 9.87)]
+        radius = [0.54, 0.67]
+        source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
 
-    @test_throws ErrorException("Sources of Blobs must be 2D or 3D") blobs = Blobs(charge, radius, source)
-end
+        blobs = Blobs(charge, radius, source)
 
-@testset "Construct inconsistent Blobs with 2D source not 1D charge" begin
-    charge = [SVector(1.23, 3.45)]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0)]
+        @test blobs.charge == charge
+        @test blobs.radius == radius
+        @test blobs.source == source
+    end
 
-    @test_throws ErrorException("Inconsistent dimension of charge for a 2D source") blobs = Blobs(charge, radius, source)
-end
+    @testset "Inconsistent attribute lengths for 3D Blobs" begin
+        charge = [SVector(1.23, 4.56, 7.89), SVector(3.21, 6.54, 9.87)]
+        radius = [0.54]
+        source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
 
-@testset "Construct inconsistent Blobs with 3D source not 3D charge" begin
-    charge = [SVector(1.23, 3.45)]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0, 0.0)]
+        @test_throws ErrorException("Inconsistent attribute lengths for construction of Blobs") blobs = Blobs(charge, radius, source)
+    end
 
-    @test_throws ErrorException("Inconsistent dimension of charge for a 3D source") blobs = Blobs(charge, radius, source)
-end
+    @testset "Inconsistent attribute types for 3D Blobs" begin
+        charge = [SVector(1.23, 4.56, 7.89), SVector(3.21, 6.54, 9.87)]
+        radius = Float32[0.54, 0.67]
+        source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
 
-@testset "Field length inconsistency" begin
-    charge = [1.23, 4.04]
-    radius = [0.45]
-    source = [SVector(0.0, 0.0)]
+        @test_throws ErrorException("Inconsistent attribute types for construction of Blobs") blobs = Blobs(charge, radius, source)
+    end
 
-    @test_throws ErrorException("Inconsistent field lengths for construction of Blobs") blobs = Blobs(charge, radius, source)
-end
+    @testset "Invalid charge dimension for 3D Blobs" begin
+        charge = [SVector(1.23, 7.89), SVector(3.21, 9.87)]
+        radius = [0.54, 0.67]
+        source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
 
-@testset "Field type inconsistency" begin
-    charge = Float16[1.23]
-    radius = Float32[0.45]
-    source = [SVector(0.0, 0.0)]
+        @test_throws ErrorException("Invalid charge dimension for 3D Blobs") blobs = Blobs(charge, radius, source)
+    end
 
-    @test_throws ErrorException("Inconsistent field types for construction of Blobs") blobs = Blobs(charge, radius, source)
+    @testset "Invalid scalar value type for 3D Blobs" begin
+        charge = [SVector(1//3, 4//6, 7//9), SVector(3//1, 6//4, 9//7)]
+        radius = [0//4, 0//7]
+        source = [SVector(0//2, 0//2, 0//2), SVector(1//2, 1//2, 1//2)]
+
+        @test_throws ErrorException("Invalid type of scalar value for attributes of Blobs") blobs = Blobs(charge, radius, source)
+    end
 end

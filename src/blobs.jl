@@ -5,27 +5,27 @@ struct Blobs{ChargeType, RadiusType, SourceType}
     
     function Blobs(charge, radius, source)
         if !(length(charge) == length(radius) == length(source))
-            error("Inconsistent field lengths for construction of Blobs")
+            error("Inconsistent attribute lengths for construction of Blobs")
         end
 
         if !(eltype(eltype(charge)) == eltype(radius) == eltype(eltype(source)))
-            error("Inconsistent field types for construction of Blobs")
-        end
-
-        if length(eltype(source)) != 2 && length(eltype(source)) != 3
-            error("Sources of Blobs must be 2D or 3D")
+            error("Inconsistent attribute types for construction of Blobs")
         end
 
         if length(eltype(source)) == 2
             if !(eltype(charge) <: AbstractFloat)
-                error("Inconsistent dimension of charge for a 2D source")
+                error("Invalid type of scalar value for attributes of Blobs")
             end
+        elseif length(eltype(source)) == 3
+            if length(eltype(charge)) != 3
+                error("Invalid charge dimension for 3D Blobs")
+            end
+        else
+            error("Invalid blob dimension")
         end
 
-        if length(eltype(source)) == 3
-            if length(eltype(charge)) != 3
-                error("Inconsistent dimension of charge for a 3D source")
-            end
+        if !(eltype(radius) <: AbstractFloat)
+            error("Invalid type of scalar value for attributes of Blobs")
         end
 
         return new{typeof(charge), typeof(radius), typeof(source)}(charge, radius, source)
