@@ -31,3 +31,5 @@ struct Blobs{ChargeType, RadiusType, SourceType}
         return new{typeof(charge), typeof(radius), typeof(source)}(charge, radius, source)
     end
 end
+
+scalar_type(blobs::Blobs) = eltype(blobs.radius)

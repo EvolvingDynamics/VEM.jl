@@ -1,7 +1,7 @@
 kernel_output_size(f::Function) = error("Output size computation for kernel '$f' has not yet been implemented via 'kernel_output_size'.")
 
 function kernel_output_type(kernel, blobs, targets)
-    return SArray{kernel_output_size(kernel), promote_type(eltype(eltype(blobs.source)), eltype(eltype(targets)))}
+    return SArray{kernel_output_size(kernel), promote_type(scalar_type(blobs), eltype(eltype(targets)))}
 end
 
 function compute_field(kernel, blobs, targets)
