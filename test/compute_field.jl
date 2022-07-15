@@ -16,14 +16,23 @@ end
 VEM.kernel_output_size(::typeof(vector_kernel)) = Tuple{2}
 
 function dyadic_kernel(charge, radius, source, target)
+    T = similar_type(promote_type(typeof(source), typeof(target)), Size(2, 2))
+
     r = target - source
     rSq = dot(r, r)
-    rhoSq = rSq/(radius*radius)
+    eSq = radius*radius
+    chargeCrossR = cross(charge, r)
+    expRho = exp(-rSq/(2*eSq))
+    c = rSq*pi*2
+    A = T(0, charge, -charge, 0)
 
-    f = -cross(charge, r)*(r'/(rSq*pi))
-    g = 1 - exp(-rhoSq/2)
+    f = chargeCrossR/c
+    f_grad = (A - (2/rSq)*chargeCrossR*r')/c
 
-    return f*g
+    g = 1 - expRho
+    g_grad = expRho*r/eSq
+
+    return f_grad*g + f*g_grad'
 end
 
 VEM.kernel_output_size(::typeof(dyadic_kernel)) = Tuple{2, 2}
