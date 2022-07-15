@@ -13,7 +13,7 @@ function vector_kernel(charge, radius, source, target)
     return f*g
 end
 
-VEM.kernel_output_size(::typeof(vector_kernel)) = Tuple{2}
+VEM.kernel_output_size(::typeof(vector_kernel)) = Size(2)
 
 function dyadic_kernel(charge, radius, source, target)
     T = similar_type(promote_type(typeof(source), typeof(target)), Size(2, 2))
@@ -35,7 +35,7 @@ function dyadic_kernel(charge, radius, source, target)
     return f_grad*g + f*g_grad'
 end
 
-VEM.kernel_output_size(::typeof(dyadic_kernel)) = Tuple{2, 2}
+VEM.kernel_output_size(::typeof(dyadic_kernel)) = Size(2, 2)
 
 @testset "Single source single target" begin
     charge = [1.23]
