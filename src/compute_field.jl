@@ -1,7 +1,7 @@
-kernel_output_size(f::Function) = error("Output size computation for kernel '$f' has not yet been implemented via 'kernel_output_size'.")
+kernel_output_size(f::Function) = error("Interface method 'kernel_output_size' has not been extended for kernel '$f'.")
 
 function kernel_output_type(kernel, blobs, targets)
-    return similar_type(promote_type(eltype(blobs.source), eltype(targets)), kernel_output_size(kernel))
+    return similar_type(promote_type(source_eltype(blobs), eltype(targets)), kernel_output_size(kernel))
 end
 
 function compute_field(kernel, blobs, targets)

@@ -105,7 +105,7 @@ end
     @test compute_field(dyadic_kernel, blobs, targets) == [sum(dyadic_kernel.(charges, radii, sources, Ref(target))) for target in targets]
 end
 
-@testset "Method kernel_output_size not defined for kernel" begin
+@testset "Interface method kernel_output_size not extended for kernel" begin
     charge = [1.23]
     radius = [0.45]
     source = [SVector(0.0, 0.0)]
@@ -113,9 +113,9 @@ end
 
     blobs = Blobs(charge, radius, source)
 
-    function foo()
+    function kernel(charge, radius, source, target)
         return nothing
     end
 
-    @test_throws ErrorException("Output size computation for kernel '$foo' has not yet been implemented via 'kernel_output_size'.") compute_field(foo, blobs, target) 
+    @test_throws ErrorException("Interface method 'kernel_output_size' has not been extended for kernel '$kernel'.") compute_field(kernel, blobs, target) 
 end
