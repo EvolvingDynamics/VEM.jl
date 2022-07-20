@@ -105,6 +105,23 @@ end
     @test compute_field(dyadic_kernel, blobs, targets) == [sum(dyadic_kernel.(charges, radii, sources, Ref(target))) for target in targets]
 end
 
+@testset "Interface method kernel_output_size extended for kernel" begin
+    charge = [1.23]
+    radius = [0.45]
+    source = [SVector(0.0, 0.0)]
+    target = [SVector(3.0, 4.0)]
+
+    blobs = Blobs(charge, radius, source)
+
+    function kernel(charge, radius, source, target)
+        return SVector(0.0, 0.0)
+    end
+
+    VEM.kernel_output_size(::typeof(kernel)) = Size(2)
+
+    @test compute_field(kernel, blobs, target) == [SVector(0.0, 0.0)]
+end
+
 @testset "Interface method kernel_output_size not extended for kernel" begin
     charge = [1.23]
     radius = [0.45]
@@ -114,7 +131,7 @@ end
     blobs = Blobs(charge, radius, source)
 
     function kernel(charge, radius, source, target)
-        return nothing
+        return SVector(0.0, 0.0)
     end
 
     @test_throws ErrorException("Interface method 'kernel_output_size' has not been extended for kernel '$kernel'.") compute_field(kernel, blobs, target) 
