@@ -2,7 +2,7 @@ using Test
 using StaticArrays
 using VEM
 
-@testset "2D blobs" begin    
+@testset "Construction in 2D" begin    
     @testset "Construct a blob" begin
         charge = [1.23]
         radius = [0.45]
@@ -52,7 +52,7 @@ using VEM
     end
 end
 
-@testset "3D Blobs" begin
+@testset "Construction in 3D" begin
     @testset "Construct a blob" begin
         charge = [SVector(1.23, 4.56, 7.89)]
         radius = [0.45]
@@ -107,5 +107,37 @@ end
         source = [SVector(0//2, 0//2, 0//2), SVector(1//2, 1//2, 1//2)]
 
         @test_throws ErrorException("Invalid type of scalar value for attributes of Blobs") blobs = Blobs(charge, radius, source)
+    end
+end
+
+@testset "Attributes interface" begin
+    @testset "Blob charge eltype" begin
+        charge = [1.23]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0)]
+
+        blobs = Blobs(charge, radius, source)
+
+        @test charge_eltype(blobs) == eltype(charge)
+    end
+
+    @testset "Blob radius eltype" begin
+        charge = [1.23]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0)]
+
+        blobs = Blobs(charge, radius, source)
+
+        @test radius_eltype(blobs) == eltype(radius)
+    end
+
+    @testset "Blob source eltype" begin
+        charge = [1.23]
+        radius = [0.45]
+        source = [SVector(0.0, 0.0)]
+
+        blobs = Blobs(charge, radius, source)
+
+        @test source_eltype(blobs) == eltype(source)
     end
 end

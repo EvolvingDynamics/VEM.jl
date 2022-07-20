@@ -32,4 +32,8 @@ struct Blobs{ChargeType, RadiusType, SourceType}
     end
 end
 
-scalar_type(blobs::Blobs) = eltype(blobs.radius)
+charge_eltype(blobs::Blobs) = eltype(blobs.charge)
+radius_eltype(blobs::Blobs) = eltype(blobs.radius)
+source_eltype(blobs::Blobs) = eltype(blobs.source)
+
+scalar_type(blobs::Blobs) = radius_eltype(blobs)
