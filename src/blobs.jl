@@ -1,11 +1,11 @@
-struct Blobs{Dimension, ScalarType<:AbstractFloat, ChargeType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
-    charge::Vector{ChargeType}
+struct Blobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
+    circulation::Vector{CirculationType}
     radius::Vector{ScalarType}
     source::Vector{SVector{Dimension, ScalarType}}
     
-    function Blobs(charge, radius, source)
+    function Blobs(circulation, radius, source)
         D = length(eltype(source))
-        TC = eltype(charge)
+        TC = eltype(circulation)
         TR = eltype(radius)
         TS = eltype(source)
 
@@ -21,15 +21,15 @@ struct Blobs{Dimension, ScalarType<:AbstractFloat, ChargeType<:Union{ScalarType,
             throw(ArgumentError("Invalid blob dimension."))
         end
 
-        if !(length(charge) == length(radius) == length(source))
-            throw(ArgumentError("Inconsistent number of charges, radii and sources."))
+        if !(length(circulation) == length(radius) == length(source))
+            throw(ArgumentError("Inconsistent number of circulations, radii and sources."))
         end
 
-        return new{D, TR, TC}(charge, radius, source)
+        return new{D, TR, TC}(circulation, radius, source)
     end
 end
 
-charge_type(blobs::Blobs) = eltype(blobs.charge)
+circulation_type(blobs::Blobs) = eltype(blobs.circulation)
 radius_type(blobs::Blobs) = eltype(blobs.radius)
 source_type(blobs::Blobs) = eltype(blobs.source)
 

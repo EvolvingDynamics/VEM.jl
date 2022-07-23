@@ -9,7 +9,7 @@ include("linalg.jl")
 
 include("blobs.jl")
 export Blobs
-export charge_type
+export circulation_type
 export radius_type
 export source_type
 export dimension
