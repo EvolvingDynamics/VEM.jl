@@ -9,7 +9,7 @@ using VEM
             radius = [0.45]
             source = [SVector(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test blobs.circulation == circulation
             @test blobs.radius == radius
@@ -21,7 +21,7 @@ using VEM
             radius = [0.45, 0.67]
             source = [SVector(0.0, 0.0), SVector(0.1, 0.1)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test blobs.circulation == circulation
             @test blobs.radius == radius
@@ -39,12 +39,12 @@ using VEM
 
             err = ArgumentError("Inconsistent number of circulations, radii and sources.")
 
-            @test_throws err Blobs(circulation_three, radius_two, source_two)
-            @test_throws err Blobs(circulation_two, radius_three, source_two)
-            @test_throws err Blobs(circulation_three, radius_three, source_two)
-            @test_throws err Blobs(circulation_two, radius_two, source_three)
-            @test_throws err Blobs(circulation_three, radius_two, source_three)
-            @test_throws err Blobs(circulation_two, radius_three, source_three)
+            @test_throws err VortexBlobs(circulation_three, radius_two, source_two)
+            @test_throws err VortexBlobs(circulation_two, radius_three, source_two)
+            @test_throws err VortexBlobs(circulation_three, radius_three, source_two)
+            @test_throws err VortexBlobs(circulation_two, radius_two, source_three)
+            @test_throws err VortexBlobs(circulation_three, radius_two, source_three)
+            @test_throws err VortexBlobs(circulation_two, radius_three, source_three)
         end
 
         @testset "Throw exception when constructing blobs with non-scalar circulation" begin
@@ -54,7 +54,7 @@ using VEM
 
             err = ArgumentError("Invalid circulation dimension for 2D blobs. It should be a scalar.")
 
-            @test_throws err Blobs(circulation, radius, source)
+            @test_throws err VortexBlobs(circulation, radius, source)
         end
     end
 
@@ -64,7 +64,7 @@ using VEM
             radius = [0.45]
             source = [SVector(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test circulation_type(blobs) == eltype(circulation)
         end
@@ -74,7 +74,7 @@ using VEM
             radius = [0.45]
             source = [SVector(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test radius_type(blobs) == eltype(radius)
         end
@@ -84,7 +84,7 @@ using VEM
             radius = [0.45]
             source = [SVector(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test source_type(blobs) == eltype(source)
         end
@@ -94,7 +94,7 @@ using VEM
             radius = [0.45]
             source = [SVector(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test dimension(blobs) == 2
         end
@@ -104,7 +104,7 @@ using VEM
             radius = [Float16(0.45)]
             source = [SVector{2, Float16}(0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test scalar_type(blobs) == Float16
         end
@@ -118,7 +118,7 @@ end
             radius = [0.45]
             source = [SVector(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test blobs.circulation == circulation
             @test blobs.radius == radius
@@ -130,7 +130,7 @@ end
             radius = [0.54, 0.67]
             source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test blobs.circulation == circulation
             @test blobs.radius == radius
@@ -148,12 +148,12 @@ end
 
             err = ArgumentError("Inconsistent number of circulations, radii and sources.")
 
-            @test_throws err Blobs(circulation_three, radius_two, source_two)
-            @test_throws err Blobs(circulation_two, radius_three, source_two)
-            @test_throws err Blobs(circulation_three, radius_three, source_two)
-            @test_throws err Blobs(circulation_two, radius_two, source_three)
-            @test_throws err Blobs(circulation_three, radius_two, source_three)
-            @test_throws err Blobs(circulation_two, radius_three, source_three)
+            @test_throws err VortexBlobs(circulation_three, radius_two, source_two)
+            @test_throws err VortexBlobs(circulation_two, radius_three, source_two)
+            @test_throws err VortexBlobs(circulation_three, radius_three, source_two)
+            @test_throws err VortexBlobs(circulation_two, radius_two, source_three)
+            @test_throws err VortexBlobs(circulation_three, radius_two, source_three)
+            @test_throws err VortexBlobs(circulation_two, radius_three, source_three)
         end
 
         @testset "Throw exception when constructing blobs with non-3-vector circulation" begin
@@ -163,7 +163,7 @@ end
 
             err = ArgumentError("Invalid circulation dimension for 3D blobs. It should be a 3-vector.")
 
-            @test_throws err Blobs(circulation, radius, source)
+            @test_throws err VortexBlobs(circulation, radius, source)
         end
     end
 
@@ -173,7 +173,7 @@ end
             radius = [0.45]
             source = [SVector(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test circulation_type(blobs) == eltype(circulation)
         end
@@ -183,7 +183,7 @@ end
             radius = [0.45]
             source = [SVector(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test radius_type(blobs) == eltype(radius)
         end
@@ -193,7 +193,7 @@ end
             radius = [0.45]
             source = [SVector(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test source_type(blobs) == eltype(source)
         end
@@ -203,7 +203,7 @@ end
             radius = [0.45]
             source = [SVector(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test dimension(blobs) == 3
         end
@@ -213,7 +213,7 @@ end
             radius = [Float16(0.45)]
             source = [SVector{3, Float16}(0.0, 0.0, 0.0)]
 
-            blobs = Blobs(circulation, radius, source)
+            blobs = VortexBlobs(circulation, radius, source)
 
             @test scalar_type(blobs) == Float16
         end
@@ -229,7 +229,7 @@ end
 
             err = ArgumentError("Invalid blob dimension.")
 
-            @test_throws err Blobs(circulation, radius, source)
+            @test_throws err VortexBlobs(circulation, radius, source)
         end
 
         @testset "Throw exception when constructing 4D blobs" begin
@@ -239,7 +239,7 @@ end
 
             err = ArgumentError("Invalid blob dimension.")
 
-            @test_throws err Blobs(circulation, radius, source)
+            @test_throws err VortexBlobs(circulation, radius, source)
         end
     end
 end

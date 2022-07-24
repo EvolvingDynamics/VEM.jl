@@ -1,5 +1,5 @@
 """
-    Blobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
+    VortexBlobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
 
 Construct a distribution of 2D or 3D blobs.
 
@@ -22,7 +22,7 @@ The state of the distribution is completely specified by three properties:
     radius = [0.45, 0.67]
     source = [SVector(0.0, 0.0), SVector(0.1, 0.1)]
     
-    blobs = Blobs(circulation, radius, source)
+    blobs = VortexBlobs(circulation, radius, source)
 
  Construct a distribution of 3D blobs:
 
@@ -33,14 +33,14 @@ The state of the distribution is completely specified by three properties:
      radius = [0.54, 0.67]
      source = [SVector(0.0, 0.0, 0.0), SVector(0.1, 0.1, 0.1)]
     
-     blobs = Blobs(circulation, radius, source)
+     blobs = VortexBlobs(circulation, radius, source)
 """
-struct Blobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
+struct VortexBlobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{ScalarType, SVector{Dimension, ScalarType}}}
     circulation::Vector{CirculationType}
     radius::Vector{ScalarType}
     source::Vector{SVector{Dimension, ScalarType}}
     
-    function Blobs(circulation, radius, source)
+    function VortexBlobs(circulation, radius, source)
         D = length(eltype(source))
         TC = eltype(circulation)
         TR = eltype(radius)
@@ -67,76 +67,76 @@ struct Blobs{Dimension, ScalarType<:AbstractFloat, CirculationType<:Union{Scalar
 end
 
 """
-    circulation_type(blobs::Blobs)
+    circulation_type(blobs::VortexBlobs)
 
 Determine the type of the circulation carried by a blob.
 
 # Example
 
-    julia> circulation_type(blobs::Blobs{2, Float32})
+    julia> circulation_type(blobs::VortexBlobs{2, Float32})
     Float32
     
-    julia> circulation_type(blobs::Blobs{3, Float16})
+    julia> circulation_type(blobs::VortexBlobs{3, Float16})
     SVector{3, Float16}
 """
-circulation_type(blobs::Blobs) = eltype(blobs.circulation)
+circulation_type(blobs::VortexBlobs) = eltype(blobs.circulation)
 
 """
-    radius_type(blobs::Blobs)
+    radius_type(blobs::VortexBlobs)
 
 Determine the type of the radius of a blob.
 
 # Example
     
-    julia> radius_type(blobs::Blobs{2, Float32})
+    julia> radius_type(blobs::VortexBlobs{2, Float32})
     Float32
     
-    julia> radius_type(blobs::Blobs{3, Float16})
+    julia> radius_type(blobs::VortexBlobs{3, Float16})
     Float16
 """
-radius_type(blobs::Blobs) = eltype(blobs.radius)
+radius_type(blobs::VortexBlobs) = eltype(blobs.radius)
 
 """
-    source_type(blobs::Blobs)
+    source_type(blobs::VortexBlobs)
 
 Determine the type of the source of a blob.
 
 # Example
 
-    julia> source_type(blobs::Blobs{2, Float32})
+    julia> source_type(blobs::VortexBlobs{2, Float32})
     SVector{2, Float32}
     
-    julia> source_type(blobs::Blobs{3, Float16})
+    julia> source_type(blobs::VortexBlobs{3, Float16})
     SVector{3, Float16}
 """
-source_type(blobs::Blobs) = eltype(blobs.source)
+source_type(blobs::VortexBlobs) = eltype(blobs.source)
 
 """
-    dimension_type(blobs::Blobs)
+    dimension_type(blobs::VortexBlobs)
 
 Determine the dimension of a blob.
 
 # Example
 
-    julia> dimension(blobs::Blobs{2})
+    julia> dimension(blobs::VortexBlobs{2})
     2
     
-    julia> dimension_type(blobs::Blobs{3})
+    julia> dimension_type(blobs::VortexBlobs{3})
     3
 """
-dimension(blobs::Blobs) = length(source_type(blobs))
+dimension(blobs::VortexBlobs) = length(source_type(blobs))
 
 """
-    scalar_type(blobs::Blobs)
+    scalar_type(blobs::VortexBlobs)
 
-Determine the primitive type used for the data contained by the `Blobs` struct.
+Determine the primitive type used for the data contained by the `VortexBlobs` struct.
 
 # Example
     
-    julia> scalar_type(blobs::Blobs{2, Float32})
+    julia> scalar_type(blobs::VortexBlobs{2, Float32})
     Float32
     
-    julia> scalar_type(blobs::Blobs{3, Float16})
+    julia> scalar_type(blobs::VortexBlobs{3, Float16})
     Float16
 """
 const scalar_type = radius_type

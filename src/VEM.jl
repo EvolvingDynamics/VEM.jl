@@ -7,8 +7,8 @@ using StaticArrays
 
 include("linalg.jl")
 
-include("blobs.jl")
-export Blobs
+include("vortex_blobs.jl")
+export VortexBlobs
 export circulation_type
 export radius_type
 export source_type

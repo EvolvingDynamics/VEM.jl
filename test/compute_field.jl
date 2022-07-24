@@ -43,7 +43,7 @@ VEM.kernel_output_size(::typeof(dyadic_kernel)) = Size(2, 2)
     source = [SVector(0.0, 0.0)]
     target = [SVector(3.0, 4.0)]
 
-    blobs = Blobs(circulation, radius, source)
+    blobs = VortexBlobs(circulation, radius, source)
 
     @test compute_field(vector_kernel, blobs, target) == [vector_kernel(circulation[1], radius[1], source[1], target[1])]
 end
@@ -54,7 +54,7 @@ end
     sources = [SVector(-3.0, 4.0), SVector(-5.0, 0.0), SVector(1.0, 2.0)] 
     target = [SVector(3.0, 4.0)]
 
-    blobs = Blobs(circulations, radii, sources)
+    blobs = VortexBlobs(circulations, radii, sources)
 
     @test compute_field(vector_kernel, blobs, target) == [sum(vector_kernel.(circulations, radii, sources, target))]
 end
@@ -65,7 +65,7 @@ end
     source = [SVector(0.0, 0.0)]
     targets = [SVector(3.0, 4.0), SVector(-3.0, 4.0), SVector(-3.0, -4.0), SVector(3.0, -4.0)]
 
-    blobs = Blobs(circulation, radius, source)
+    blobs = VortexBlobs(circulation, radius, source)
 
     @test compute_field(vector_kernel, blobs, targets) == [sum(vector_kernel.(circulation, radius, source, Ref(target))) for target in targets]
 end
@@ -76,7 +76,7 @@ end
     sources = [SVector(-3.0, 4.0), SVector(-5.0, 0.0), SVector(1.0, 2.0)] 
     targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
 
-    blobs = Blobs(circulations, radii, sources)
+    blobs = VortexBlobs(circulations, radii, sources)
 
     @test compute_field(vector_kernel, blobs, targets) == [sum(vector_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
 end
@@ -88,7 +88,7 @@ end
     targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
     field = zeros(eltype(sources), length(targets))
 
-    blobs = Blobs(circulations, radii, sources)
+    blobs = VortexBlobs(circulations, radii, sources)
     compute_field!(field, vector_kernel, blobs, targets)
 
     @test field == [sum(vector_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
@@ -100,7 +100,7 @@ end
     sources = [SVector(-3.0, 4.0), SVector(-5.0, 0.0), SVector(1.0, 2.0)] 
     targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
 
-    blobs = Blobs(circulations, radii, sources)
+    blobs = VortexBlobs(circulations, radii, sources)
 
     @test compute_field(dyadic_kernel, blobs, targets) == [sum(dyadic_kernel.(circulations, radii, sources, Ref(target))) for target in targets]
 end
@@ -111,7 +111,7 @@ end
     source = [SVector(0.0, 0.0)]
     target = [SVector(3.0, 4.0)]
 
-    blobs = Blobs(circulation, radius, source)
+    blobs = VortexBlobs(circulation, radius, source)
 
     function kernel(circulation, radius, source, target)
         return SVector(0.0, 0.0)
@@ -128,7 +128,7 @@ end
     source = [SVector(0.0, 0.0)]
     target = [SVector(3.0, 4.0)]
 
-    blobs = Blobs(circulation, radius, source)
+    blobs = VortexBlobs(circulation, radius, source)
 
     function kernel(circulation, radius, source, target)
         return SVector(0.0, 0.0)

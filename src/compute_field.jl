@@ -38,13 +38,13 @@ Compute the velocity due to three 2D blobs at four targets:
     circulations = [1.23, 4.56, 7.89]
     radii = [0.45, 0.90, 1.80]
     sources = [SVector(-3.0, 4.0), SVector(-5.0, 0.0), SVector(1.0, 2.0)] 
-    blobs = Blobs(circulations, radii, sources)
+    blobs = VortexBlobs(circulations, radii, sources)
 
     targets = [SVector(3.0, 5.0), SVector(-3.0, 5.0), SVector(-3.0, -5.0), SVector(3.0, -5.0)]
 
     velocity_field = compute_field(velocity, blobs, targets)
 """
-function compute_field(kernel, blobs::Blobs, targets)
+function compute_field(kernel, blobs::VortexBlobs, targets)
     T = kernel_output_type(kernel, blobs, targets)
     field = zeros(T, length(targets))
     _compute_field!(field, kernel, blobs.circulation, blobs.radius, blobs.source, targets)
@@ -59,7 +59,7 @@ In-place version of [`compute_field`](@ref).
 The induced field is stored in `field`.
 The output type of `kernel` must be compatible with `eltype(field)`.
 """
-function compute_field!(field, kernel, blobs::Blobs, targets)
+function compute_field!(field, kernel, blobs::VortexBlobs, targets)
     _compute_field!(field, kernel, blobs.circulation, blobs.radius, blobs.source, targets)
 end
 
