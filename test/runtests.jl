@@ -1,6 +1,4 @@
-using VEM
-using Test
+using SafeTestsets  
 
-@testset "VEM.jl" begin
-    # Write your tests here.
-end
+@safetestset "Vortex blobs" begin include("vortex_blobs.jl") end
+@safetestset "Direct summation" begin include("compute_field.jl") end
